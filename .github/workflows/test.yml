@@ -1,10 +1,10 @@
-name: Django Tests
+name: Django Tests with Coverage
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   test:
@@ -24,8 +24,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run Django tests with SQLite in memory
+      - name: Run tests with coverage (SQLite in memory)
         env:
           DJANGO_SETTINGS_MODULE: api.settings
         run: |
-          python manage.py test
+          coverage run manage.py test
+          coverage report --fail-under=80 # O el porcentaje que decidas
+
